@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 @Entity
 @Table(name = "order_item")
 @IdClass(OrderItemId.class)
@@ -14,7 +13,6 @@ import lombok.Setter;
 public class OrderItemEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_item")
     private Integer idItem;
     @Id
@@ -26,4 +24,12 @@ public class OrderItemEntity {
     private double quantity;
     @Column(columnDefinition = "decimal(5,2)", nullable = false)
     private double price;
+
+    @ManyToOne
+    @JoinColumn(name = "id_order", referencedColumnName = "id_order", insertable = false, updatable = false)
+    private OrderEntity order;
+
+    @OneToOne
+    @JoinColumn(name = "id_pizza", referencedColumnName = "id_pizza", insertable = false, updatable = false)
+    private PizzaEntity pizza;
 }
