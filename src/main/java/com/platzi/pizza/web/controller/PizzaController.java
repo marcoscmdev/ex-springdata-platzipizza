@@ -22,14 +22,15 @@ public class PizzaController {
     public ResponseEntity<List<PizzaEntity>> getAll() {
         return ResponseEntity.ok(this.pizzaService.getAll());
     }
+
     @GetMapping("/{idPizza}")
-    public ResponseEntity<PizzaEntity> get(@PathVariable int idPizza){
+    public ResponseEntity<PizzaEntity> get(@PathVariable int idPizza) {
         return ResponseEntity.ok(this.pizzaService.get(idPizza));
     }
 
     @PostMapping
     public ResponseEntity<PizzaEntity> add(@RequestBody PizzaEntity pizzaEntity) {
-        if(pizzaEntity.getIdPizza()==null || !this.pizzaService.existsById(pizzaEntity.getIdPizza())){
+        if (pizzaEntity.getIdPizza() == null || !this.pizzaService.exists(pizzaEntity.getIdPizza())) {
             return ResponseEntity.ok(this.pizzaService.save(pizzaEntity));
         }
         return ResponseEntity.badRequest().build();
@@ -37,9 +38,19 @@ public class PizzaController {
 
     @PutMapping
     public ResponseEntity<PizzaEntity> update(@RequestBody PizzaEntity pizzaEntity) {
-        if(pizzaEntity.getIdPizza()!=null && this.pizzaService.existsById(pizzaEntity.getIdPizza())){
+        if (pizzaEntity.getIdPizza() != null && this.pizzaService.exists(pizzaEntity.getIdPizza())) {
             return ResponseEntity.ok(this.pizzaService.save(pizzaEntity));
         }
         return ResponseEntity.badRequest().build();
     }
+
+    @DeleteMapping("/{idPizza}")
+    public ResponseEntity<Void> delete(@PathVariable int idPizza) {
+        if(this.pizzaService.exists(idPizza)) {
+            this.pizzaService.delete(idPizza);
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
 }
