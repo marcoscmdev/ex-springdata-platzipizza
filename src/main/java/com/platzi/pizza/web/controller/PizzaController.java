@@ -27,6 +27,7 @@ public class PizzaController {
     public ResponseEntity<PizzaEntity> get(@PathVariable int idPizza) {
         return ResponseEntity.ok(this.pizzaService.get(idPizza));
     }
+
     @GetMapping("/available")
     public ResponseEntity<List<PizzaEntity>> getAvailable() {
         return ResponseEntity.ok(this.pizzaService.getAvailable());
@@ -36,13 +37,20 @@ public class PizzaController {
     public ResponseEntity<PizzaEntity> getByName(@PathVariable String name) {
         return ResponseEntity.ok(this.pizzaService.getByName(name));
     }
+
     @GetMapping("/with/{ingredient}")
     public ResponseEntity<List<PizzaEntity>> getByWith(@PathVariable String ingredient) {
         return ResponseEntity.ok(this.pizzaService.getWith(ingredient));
     }
+
     @GetMapping("/without/{ingredient}")
     public ResponseEntity<List<PizzaEntity>> getByWithout(@PathVariable String ingredient) {
         return ResponseEntity.ok(this.pizzaService.getWithout(ingredient));
+    }
+
+    @GetMapping("/cheapest/{price}")
+    public ResponseEntity<List<PizzaEntity>> getCheapestPizza(@PathVariable double price) {
+        return ResponseEntity.ok(this.pizzaService.getCheapest(price));
     }
 
     @PostMapping
@@ -63,7 +71,7 @@ public class PizzaController {
 
     @DeleteMapping("/{idPizza}")
     public ResponseEntity<Void> delete(@PathVariable int idPizza) {
-        if(this.pizzaService.exists(idPizza)) {
+        if (this.pizzaService.exists(idPizza)) {
             this.pizzaService.delete(idPizza);
             return ResponseEntity.ok().build();
         }
